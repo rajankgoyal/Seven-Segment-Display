@@ -45,18 +45,10 @@ def display_digit(digit):
     # Turn on the common anode/cathode to display the digit
     common_pin.on()
 
-    # Add a delay to make the display visible
-    utime.sleep(1)
-
-    # Turn off the common anode/cathode and segments
-    common_pin.off()
-    #for segment in segment_map.values():
-     #   segment.off()
-
 
 # Main loop
 while True:
     for digit in range(10):
         display_digit(digit)
         print(digit)
-        utime.sleep(1)
+        utime.sleep(0.2)
