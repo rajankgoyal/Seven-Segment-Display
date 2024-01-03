@@ -37,19 +37,19 @@ segment_map_b = {
 }
 
 
-def display_digit(digit):
+def display_digit(digit,digit_b):
     # Define the segments for each digit (0-9)
     digit_segments = {
-        0: ['G'],
-        1: ['A', 'D', 'E', 'F', 'G'],
-        2: ['C', 'F'],
-        3: ['E', 'F'],
-        4: ['A', 'D', 'E',],
-        5: ['B', 'E'],
-        6: ['B'],
-        7: ['D', 'E', 'F', 'G'],
-        8: [],
-        9: ['E']
+        0: ['G', 'DP'],
+        1: ['A', 'D', 'E', 'F', 'G', 'DP'],
+        2: ['C', 'F', 'DP'],
+        3: ['E', 'F', 'DP'],
+        4: ['A', 'D', 'E', 'DP'],
+        5: ['B', 'E', 'DP'],
+        6: ['B', 'DP'],
+        7: ['D', 'E', 'F', 'G', 'DP'],
+        8: ['DP'],
+        9: ['E', 'DP']
     }
 
     # Turn off all segments
@@ -69,7 +69,7 @@ def display_digit(digit):
         segment_b.off()
 
     # Turn on segments for the given digit on second display
-    for segment_key_b in digit_segments[digit]:
+    for segment_key_b in digit_segments[digit_b]:
         segment_map_b[segment_key_b].on()
 
     
@@ -79,7 +79,10 @@ def display_digit(digit):
 
 # Main loop
 while True:
-    for digit in range(10):
-        display_digit(digit)
-        print(digit)
+    for number in range(100):
+        digit = int(number/10)
+        digit_b = number%10
+        print(number)
+        display_digit(digit,digit_b)
+        
         utime.sleep(0.2)
