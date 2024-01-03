@@ -66,7 +66,7 @@ def display_digit(digit):
     
     # Turn off all segments on second display
     for segment_b in segment_map_b.values():
-        segment.off()
+        segment_b.off()
 
     # Turn on segments for the given digit on second display
     for segment_key_b in digit_segments[digit]:
