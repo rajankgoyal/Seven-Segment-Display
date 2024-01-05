@@ -82,7 +82,6 @@ while True:
     for number in range(100):
         digit = int(number/10)
         digit_b = number%10
-        print(number)
         display_digit(digit,digit_b)
         
-        utime.sleep(0.2)
+        utime.sleep(0.1)
