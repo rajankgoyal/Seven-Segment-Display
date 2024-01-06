@@ -1,18 +1,18 @@
 import machine
 import utime
 
-# Define segment pins
+# Defines segment pins for left display
 segments = [machine.Pin(pin, machine.Pin.OUT) for pin in [1, 2, 3, 4, 5, 6, 7, 8]]
 
-# Define common anode/cathode pin
+# Defines common anode pin for left display
 common_pin = machine.Pin(0, machine.Pin.OUT)
 
-# Define segment pins for second display
+# Defines segment pins for right display
 segments_b = [machine.Pin(pin, machine.Pin.OUT) for pin in [17, 18, 19, 20, 21, 22, 26, 27]]
-# Define common anode/cathode pin for second display
+# Defines common anode pin for right display
 common_pin_b = machine.Pin(16, machine.Pin.OUT)
 
-# Map segments to GPIO pins
+# Map segments to GPIO pins on left display
 segment_map = {
     'A': segments[0],
     'B': segments[1],
@@ -24,7 +24,7 @@ segment_map = {
     'DP': segments[7]
 }
 
-# Map segments to GPIO pins on second display
+# Map segments to GPIO pins on right display
 segment_map_b = {
     'A': segments_b[0],
     'B': segments_b[1],
@@ -38,7 +38,7 @@ segment_map_b = {
 
 
 def display_digit(digit,digit_b):
-    # Define the segments for each digit (0-9)
+    # Defines the segments for each digit (0-9)
     digit_segments = {
         0: ['G', 'DP'],
         1: ['A', 'D', 'E', 'F', 'G', 'DP'],
@@ -52,39 +52,40 @@ def display_digit(digit,digit_b):
         9: ['E', 'DP'],
     }
 
-    # Turn off all segments
+    # Turns on all segments on left display
     for segment in segment_map.values():
         segment.off()
 
-    # Turn on segments for the given digit
+    # Keeps segments for the given digit on for left display
     for segment_key in digit_segments[digit]:
         segment_map[segment_key].on()
 
-    # Turn on the common anode/cathode to display the digit
+    # Turns on the common anode to display the digit
     common_pin.on()
     
     
-    # Turn off all segments on second display
+    # Turns on all segments on right display
     for segment_b in segment_map_b.values():
         segment_b.off()
 
-    # Turn on segments for the given digit on second display
+    # Keeps segments for the given digit on for right display
     for segment_key_b in digit_segments[digit_b]:
         segment_map_b[segment_key_b].on()
 
     
-    # Turn on the common anode/cathode to second display the digit
+    # Turns on the common anode to second display the digit
     common_pin_b.on()
    
 def print_digit(number):
-    #turns off the dot next to second display to indicate negitive number
+    #Turns off the dot next to second display to indicate negitive number
     segments_b[7].on()
-    # if number is positive two digit number
-    # print normally
+    # If number is positive two digit number
+    # Print positive numbers between 0 to 99
     if number < 100 and number >= 0:
         digit = int(number/10)
         digit_b = number%10
         display_digit(digit,digit_b)
+    # Print negitive numbers between -1 to -99
     elif number < 0 and number >= -99:
         number = number * -1
         digit = int(number/10)
@@ -92,6 +93,7 @@ def print_digit(number):
         display_digit(digit,digit_b)
         # turns on the dot next to second display to indicate negitive number
         segments_b[7].off()
+    # Prints a statement indicating number is too large to be printed 
     else:
         print("Number is too big to print", number)
         for segment in segment_map.values():
