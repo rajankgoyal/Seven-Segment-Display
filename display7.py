@@ -49,7 +49,7 @@ def display_digit(digit,digit_b):
         6: ['B', 'DP'],
         7: ['D', 'E', 'F', 'G', 'DP'],
         8: ['DP'],
-        9: ['E', 'DP']
+        9: ['E', 'DP'],
     }
 
     # Turn off all segments
@@ -75,13 +75,28 @@ def display_digit(digit,digit_b):
     
     # Turn on the common anode/cathode to second display the digit
     common_pin_b.on()
-
-
-# Main loop
-while True:
-    for number in range(100):
+   
+def print_digit(number):
+    #turns off the dot next to second display to indicate negitive number
+    segments_b[7].on()
+    # if number is positive two digit number
+    # print normally
+    if number < 100 and number >= 0:
         digit = int(number/10)
         digit_b = number%10
         display_digit(digit,digit_b)
-        
-        utime.sleep(0.1)
+    elif number < 0 and number >= -99:
+        number = number * -1
+        digit = int(number/10)
+        digit_b = number%10
+        display_digit(digit,digit_b)
+        # turns on the dot next to second display to indicate negitive number
+        segments_b[7].off()
+    else:
+        print("Number is too big to print", number)
+        for segment in segment_map.values():
+            segment.on()
+        for segment_b in segment_map_b.values():
+            segment_b.on()
+    
+    utime.sleep(0.25)
